@@ -13,11 +13,8 @@ module BistroCar
   end
   
   class << self
-    def compile(source)
-      file = Tempfile.new('script.coffee')
-      file.write(source)
-      file.close
-      %x(coffee -p #{file.path})
+    def compile(path)
+      %x(coffee -s -p < #{path})
     end
   
     attr_accessor :mode, :minify
