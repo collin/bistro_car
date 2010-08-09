@@ -1,5 +1,4 @@
 require 'jsmin'
-require 'tempfile'
 require 'bistro_car/bundle'
 require 'bistro_car/helpers'
 
@@ -13,8 +12,12 @@ module BistroCar
   end
   
   class << self
-    def compile(path)
-      %x(coffee -s -p < #{path})
+    def compile(source)
+      if File.exist? source
+        %x(coffee -s -p < #{source})
+      else
+        %x(echo "#{source.gsub(/"/, '\"')}" | coffee -s -p)
+      end
     end
   
     attr_accessor :mode, :minify
