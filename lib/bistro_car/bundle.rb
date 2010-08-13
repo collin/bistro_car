@@ -32,7 +32,7 @@ module BistroCar
 
     def manifest_paths
       manifest.lines.map do |line|
-        path + "#{line}.coffee"
+        path + "#{line.chomp}.coffee"
       end
     end
 
