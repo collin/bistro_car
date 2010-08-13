@@ -7,11 +7,34 @@ module BistroCar
     end
     
     def file_paths
-      Dir.glob(path.join('*.coffee')).to_a
+      if manifest?
+        manifest_paths
+      else
+        Dir.glob(path.join('*.coffee')).to_a
+      end
     end
     
     def to_javascript
+      raise file_paths.inspect
       minify(file_paths.map { |path| BistroCar.compile(path.to_s) }.join)
+    end
+
+    def manifest?
+      File.exist? manifest_path
+    end
+    
+    def manifest
+      manifest_path.read
+    end
+    
+    def manifest_path
+      path + "manifest"
+    end
+
+    def manifest_paths
+      manifest.lines.map do |line|
+        path + "#{line}.coffee"
+      end
     end
 
     def javascript_url

@@ -4,6 +4,7 @@ require 'bistro_car/helpers'
 
 module BistroCar
   VERSION = "0.2.2"
+  COMMAND = "coffee -s -p --no-wrap"
 
   if defined?(Rails::Engine)
     class Engine < Rails::Engine
@@ -14,9 +15,9 @@ module BistroCar
   class << self
     def compile(source)
       if File.exist? source
-        %x(coffee -s -p < #{source})
+        %x(#{COMMAND} < #{source})
       else
-        %x(echo "#{source.gsub(/"/, '\"')}" | coffee -s -p)
+        %x(echo "#{source.gsub(/"/, '\"')}" | #{COMMAND})
       end
     end
   
