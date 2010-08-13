@@ -15,7 +15,6 @@ module BistroCar
     end
     
     def to_javascript
-      raise file_paths.inspect
       minify(file_paths.map { |path| BistroCar.compile(path.to_s) }.join)
     end
 
